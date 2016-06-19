@@ -18,8 +18,24 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="ormlite-core-4.48" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="ormlite-jdbc-4.48" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="sqlite-jdbc-3.8.11.2" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/ormlite-core-4.49-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/ormlite-jdbc-4.49-SNAPSHOT.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="sqlite-jdbc-3.8.11.2" level="project" />
   </component>
 </module>

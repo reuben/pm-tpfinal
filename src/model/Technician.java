@@ -1,10 +1,12 @@
 package model;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @DatabaseTable(tableName = "technicians")
@@ -12,7 +14,7 @@ public class Technician extends BaseDaoEnabled {
     public Technician() {
     }
 
-    public Technician(String name, String email, String phone, List<String> taskTypes) {
+    public Technician(String name, String email, String phone, ArrayList<String> taskTypes) {
         this.id = -1;
         this.name = name;
         this.email = email;
@@ -40,6 +42,16 @@ public class Technician extends BaseDaoEnabled {
         return taskTypes;
     }
 
+    @Override
+    public String toString() {
+        return "Technician{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                '}';
+    }
+
     @DatabaseField(generatedId = true)
     private long id;
     @DatabaseField(canBeNull = false)
@@ -48,6 +60,6 @@ public class Technician extends BaseDaoEnabled {
     private String email;
     @DatabaseField
     private String phone;
-    @DatabaseField
-    private List<String> taskTypes;
+    @DatabaseField(dataType = DataType.SERIALIZABLE)
+    private ArrayList<String> taskTypes;
 }

@@ -1,5 +1,6 @@
 package model;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 import com.j256.ormlite.table.DatabaseTable;
@@ -55,11 +56,11 @@ public class Client extends BaseDaoEnabled {
     private String name;
     @DatabaseField
     private String id;
-    @DatabaseField
+    @DatabaseField(id = true)
     private String CPF;
     @DatabaseField
     private String address;
-    @DatabaseField
+    @DatabaseField(persisterClass = LocalDateType.class)
     private LocalDate birthdate;
     @DatabaseField
     private String email;

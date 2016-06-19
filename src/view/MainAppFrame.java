@@ -1,34 +1,75 @@
 package view;
 
+import controllers.AppController;
+import controllers.TechnicianController;
+import model.Technician;
+
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.event.ListSelectionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainAppFrame extends JFrame {
-    private MainAppFrame() {
+    public MainAppFrame() {
         setTitle("FazConcertos");
-        setSize(300, 300);
+        setSize(600, 600);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(appPanel);
-    }
 
-    public static void main(String args[]) {
-        EventQueue.invokeLater(() -> {
-            MainAppFrame app = new MainAppFrame();
-            app.setVisible(true);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                onCancel();
+            }
         });
+
+        addTechnicianBtn.addActionListener(e -> {
+            TechnicianController.addTechnician();
+        });
+
+        editBtn.addActionListener(e -> {
+            TechnicianController.editTechnician((Technician)technicianList.getSelectedValue());
+        });
+
+        removeBtn.addActionListener(e -> {
+            //TODO: JOptionPane.showConfirmDialog then remove
+        });
+
+        techSearchBtn.addActionListener(e -> {
+            TechnicianController.filter(technicianSearch.getText());
+        });
+
+        technicianList.addListSelectionListener((ListSelectionEvent e) -> {
+            editBtn.setEnabled(!technicianList.isSelectionEmpty());
+            removeBtn.setEnabled(!technicianList.isSelectionEmpty());
+        });
+
+        updateTechnicianView();
+        updateOSView();
     }
 
-    private JTabbedPane tabbedPane1;
-    private JPanel techniciansPanel;
-    private JPanel ordersPanel;
-    private JList list1;
+    private void onCancel() {
+        AppController.quit();
+        dispose();
+    }
+
+    public void updateTechnicianView() {
+        technicianList.setListData(TechnicianController.getAll().toArray());
+    }
+
+    public void updateOSView() {
+
+    }
+
+    private JList technicianList;
     private JButton addTechnicianBtn;
     private JTextField technicianSearch;
     private JButton techSearchBtn;
-    private JList list2;
+    private JList osList;
     private JButton novaOSButton;
     private JTextArea osSearch;
     private JButton osSearchBtn;
     private JPanel appPanel;
+    private JButton editBtn;
+    private JButton removeBtn;
 }
