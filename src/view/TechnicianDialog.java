@@ -1,12 +1,15 @@
 package view;
 
 import controllers.TechnicianController;
+import model.TaskType;
 import model.Technician;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.*;
+import java.util.Vector;
+import java.util.stream.Collectors;
 
 public class TechnicianDialog extends JDialog {
     public enum DialogMode {
@@ -14,21 +17,45 @@ public class TechnicianDialog extends JDialog {
         READ_WRITE
     }
 
+    private class TaskTypeCheckBox extends JCheckBox {
+        public TaskTypeCheckBox(TaskType taskType, boolean enabled) {
+            super(taskType.getName(), enabled);
+            this.taskType = taskType;
+        }
+
+        public TaskType getTaskType() {
+            return taskType;
+        }
+
+        private TaskType taskType;
+    }
+
     private TechnicianDialog(Technician technician, DialogMode mode) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(saveBtn);
-        setTitle("Editar técnico");
+        setTitle("Detalhes do técnico");
         setLocationRelativeTo(null);
 
         this.technician = technician;
+        this.taskTypeCheckboxes = new Vector<TaskTypeCheckBox>();
 
         if (technician != null) {
             nameTextField.setText(technician.getName());
             emailTextField.setText(technician.getEmail());
             phoneTextField.setText(technician.getPhone());
-            //TODO: task types binding
+            for (TaskType taskType : TechnicianController.getTaskTypesForTechnician(technician)) {
+                taskTypeCheckboxes.add(new TaskTypeCheckBox(taskType, true));
+            }
+            for (TaskType taskType : TechnicianController.getTaskTypesMinusTechnician(technician)) {
+                taskTypeCheckboxes.add(new TaskTypeCheckBox(taskType, false));
+            }
+        } else {
+            for (TaskType taskType : TechnicianController.getAllTaskTypes()) {
+                taskTypeCheckboxes.add(new TaskTypeCheckBox(taskType, false));
+            }
         }
+        taskTypesList.setListData(taskTypeCheckboxes);
 
         if (mode == DialogMode.READ_ONLY) {
             nameTextField.setEnabled(false);
@@ -49,7 +76,9 @@ public class TechnicianDialog extends JDialog {
         });
 
         // call onCancel() on ESCAPE
-        contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         if (mode == DialogMode.READ_WRITE) {
             final DocumentListener editListener = new DocumentListener() {
@@ -75,18 +104,22 @@ public class TechnicianDialog extends JDialog {
             nameTextField.getDocument().addDocumentListener(editListener);
             emailTextField.getDocument().addDocumentListener(editListener);
             phoneTextField.getDocument().addDocumentListener(editListener);
+            taskTypesList.addListSelectionListener(e -> saveBtn.setEnabled(true));
         }
 
-        saveBtn.addActionListener((ActionEvent e) -> {
+        saveBtn.addActionListener(e -> {
             if (this.technician == null) {
-                Technician newTechnician = new Technician(nameTextField.getText(), emailTextField.getText(), phoneTextField.getText(), null);
+                Technician newTechnician = new Technician(nameTextField.getText(), emailTextField.getText(), phoneTextField.getText());
                 TechnicianController.saveNewTechnician(newTechnician);
+                TechnicianController.updateTaskTypesForTechnician(newTechnician,
+                        taskTypesList.getSelectedValuesList().stream().map(TaskTypeCheckBox::getTaskType).collect(Collectors.toList()));
             } else {
                 this.technician.setName(nameTextField.getText());
                 this.technician.setEmail(emailTextField.getText());
                 this.technician.setPhone(phoneTextField.getText());
-                //TODO: taskTypes
                 TechnicianController.updateTechnician(this.technician);
+                TechnicianController.updateTaskTypesForTechnician(this.technician,
+                        taskTypesList.getSelectedValuesList().stream().map(TaskTypeCheckBox::getTaskType).collect(Collectors.toList()));
             }
         });
     }
@@ -108,6 +141,7 @@ public class TechnicianDialog extends JDialog {
     }
 
     private final Technician technician;
+    private final Vector<TaskTypeCheckBox> taskTypeCheckboxes;
 
     private JPanel contentPane;
     private JButton saveBtn;
@@ -115,5 +149,5 @@ public class TechnicianDialog extends JDialog {
     private JTextField nameTextField;
     private JTextField emailTextField;
     private JTextField phoneTextField;
-    private CheckBoxList taskTypesList;
+    private CheckBoxList<TaskTypeCheckBox> taskTypesList;
 }

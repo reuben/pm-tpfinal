@@ -5,7 +5,7 @@ import javax.swing.border.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class CheckBoxList extends JList {
+public class CheckBoxList<T> extends JList<T> {
     protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
 
     public CheckBoxList() {

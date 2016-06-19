@@ -4,9 +4,7 @@ import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.table.TableUtils;
-import model.Client;
-import model.ServiceRequest;
-import model.Technician;
+import model.*;
 import view.FatalErrorDialog;
 import view.MainAppFrame;
 
@@ -31,10 +29,25 @@ public final class AppController {
             clientDao = DaoManager.createDao(connectionSource, Client.class);
             technicianDao = DaoManager.createDao(connectionSource, Technician.class);
             serviceRequestDao = DaoManager.createDao(connectionSource, ServiceRequest.class);
+            taskTypeDao = DaoManager.createDao(connectionSource, TaskType.class);
+            technicianTaskTypeDao = DaoManager.createDao(connectionSource, TechnicianTaskType.class);
 
             TableUtils.createTableIfNotExists(connectionSource, Client.class);
             TableUtils.createTableIfNotExists(connectionSource, Technician.class);
             TableUtils.createTableIfNotExists(connectionSource, ServiceRequest.class);
+            if (!taskTypeDao.isTableExists()) {
+                TableUtils.createTable(connectionSource, TaskType.class);
+                TaskType[] defaults = new TaskType[]{
+                        new TaskType("Eletricista"),
+                        new TaskType("Bombeiro(a)"),
+                        new TaskType("Pedreiro(a)"),
+                        new TaskType("Fachineiro(a)")
+                };
+                for (TaskType taskType : defaults) {
+                    taskTypeDao.create(taskType);
+                }
+            }
+            TableUtils.createTableIfNotExists(connectionSource, TechnicianTaskType.class);
 
             initialized = true;
         }
@@ -61,6 +74,14 @@ public final class AppController {
     static Dao<ServiceRequest, Long> getServiceRequestDao() {
         assert(initialized);
         return serviceRequestDao;
+    }
+
+    public static Dao<TaskType, String> getTaskTypeDao() {
+        return taskTypeDao;
+    }
+
+    public static Dao<TechnicianTaskType, Long> getTechnicianTaskTypeDao() {
+        return technicianTaskTypeDao;
     }
 
     public static MainAppFrame getAppFrame() {
@@ -91,6 +112,8 @@ public final class AppController {
     private static Dao<Client, Void> clientDao;
     private static Dao<Technician, Long> technicianDao;
     private static Dao<ServiceRequest, Long> serviceRequestDao;
+    private static Dao<TaskType, String> taskTypeDao;
+    private static Dao<TechnicianTaskType, Long> technicianTaskTypeDao;
 
     private static MainAppFrame appFrame;
 }

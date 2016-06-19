@@ -1,25 +1,21 @@
 package model;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-
 @DatabaseTable(tableName = "technicians")
 public class Technician extends BaseDaoEnabled {
+    public static final String ID_FIELD = "id";
+
     public Technician() {
     }
 
-    public Technician(String name, String email, String phone, ArrayList<String> taskTypes) {
+    public Technician(String name, String email, String phone) {
         this.id = -1;
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.taskTypes = taskTypes;
     }
 
     public long getId() {
@@ -50,14 +46,6 @@ public class Technician extends BaseDaoEnabled {
         this.phone = phone;
     }
 
-    public ArrayList<String> getTaskTypes() {
-        return taskTypes;
-    }
-
-    public void setTaskTypes(ArrayList<String> taskTypes) {
-        this.taskTypes = taskTypes;
-    }
-
     @Override
     public String toString() {
         return "Technician{" +
@@ -68,7 +56,7 @@ public class Technician extends BaseDaoEnabled {
                 '}';
     }
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true, columnName = ID_FIELD)
     private long id;
     @DatabaseField(canBeNull = false)
     private String name;
@@ -76,6 +64,4 @@ public class Technician extends BaseDaoEnabled {
     private String email;
     @DatabaseField
     private String phone;
-    @DatabaseField(dataType = DataType.SERIALIZABLE)
-    private ArrayList<String> taskTypes;
 }

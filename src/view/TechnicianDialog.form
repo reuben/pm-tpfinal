@@ -123,6 +123,9 @@
             <children>
               <component id="78b2b" class="view.CheckBoxList" binding="taskTypesList">
                 <constraints/>
+                <properties>
+                  <preferredSize width="300" height="300"/>
+                </properties>
               </component>
             </children>
           </scrollpane>

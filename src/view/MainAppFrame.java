@@ -5,7 +5,6 @@ import controllers.TechnicianController;
 import model.Technician;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
