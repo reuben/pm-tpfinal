@@ -14,5 +14,5 @@ class TaskTypeCheckBox extends JCheckBox {
         return taskType;
     }
 
-    private TaskType taskType;
+    private final TaskType taskType;
 }

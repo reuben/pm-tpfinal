@@ -21,7 +21,7 @@ import javax.swing.border.*;
  *  a) invoke the setModelClass(...) method to specify the ListModel you need
  *  b) override the applyValueToModel(...) method to update the model
  */
-public class EditListAction extends AbstractAction
+class EditListAction extends AbstractAction
 {
     private JList list;
     private final Runnable editCallback;
@@ -89,18 +89,14 @@ public class EditListAction extends AbstractAction
         editTextField.setBorder( border );
 
         //  Add an Action to the text field to save the new value to the model
-        editTextField.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e)
-            {
-                TaskType taskType = new TaskType(editTextField.getText());
-                TaskTypeCheckBox checkBox = new TaskTypeCheckBox(taskType, true);
-                ListModel model = list.getModel();
-                int row = list.getSelectedIndex();
-                applyValueToModel(checkBox, model, row);
-                editPopup.setVisible(false);
-                editCallback.run();
-            }
+        editTextField.addActionListener(e -> {
+            TaskType taskType = new TaskType(editTextField.getText());
+            TaskTypeCheckBox checkBox = new TaskTypeCheckBox(taskType, true);
+            ListModel model = list.getModel();
+            int row = list.getSelectedIndex();
+            applyValueToModel(checkBox, model, row);
+            editPopup.setVisible(false);
+            editCallback.run();
         });
 
         //  Add the editor to the popup

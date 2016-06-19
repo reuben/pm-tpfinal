@@ -57,7 +57,6 @@ public class TechnicianDialog extends JDialog {
             taskTypesList.setEnabled(false);
         }
 
-        saveBtn.addActionListener(e -> onOK());
         cancelBtn.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
@@ -118,6 +117,7 @@ public class TechnicianDialog extends JDialog {
                 TechnicianController.updateTechnician(this.technician);
                 TechnicianController.updateTaskTypesForTechnician(this.technician, taskTypes);
             }
+            dispose();
         });
 
         this.editListAction = new EditListAction(() -> {
@@ -149,13 +149,7 @@ public class TechnicianDialog extends JDialog {
         });
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
-
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 

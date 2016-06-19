@@ -17,7 +17,7 @@ public final class AppController {
 
     }
 
-    public static void initialize() throws SQLException {
+    private static void initialize() throws SQLException {
         if (!initialized) {
             try {
                 Class.forName("org.sqlite.JDBC");
@@ -76,15 +76,15 @@ public final class AppController {
         return serviceRequestDao;
     }
 
-    public static Dao<TaskType, String> getTaskTypeDao() {
+    static Dao<TaskType, String> getTaskTypeDao() {
         return taskTypeDao;
     }
 
-    public static Dao<TechnicianTaskType, Long> getTechnicianTaskTypeDao() {
+    static Dao<TechnicianTaskType, Long> getTechnicianTaskTypeDao() {
         return technicianTaskTypeDao;
     }
 
-    public static MainAppFrame getAppFrame() {
+    static MainAppFrame getAppFrame() {
         return appFrame;
     }
 

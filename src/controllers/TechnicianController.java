@@ -31,6 +31,10 @@ public final class TechnicianController {
         view.TechnicianDialog.create(null, TechnicianDialog.DialogMode.READ_WRITE);
     }
 
+    public static void viewTechnician(Technician technician) {
+        view.TechnicianDialog.create(technician, TechnicianDialog.DialogMode.READ_ONLY);
+    }
+
     public static void editTechnician(Technician technician) {
         view.TechnicianDialog.create(technician, TechnicianDialog.DialogMode.READ_WRITE);
     }

@@ -19,10 +19,6 @@ public class TaskType {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @DatabaseField(id = true, columnName = ID_FIELD)
     private String name;
 }

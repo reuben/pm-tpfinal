@@ -5,6 +5,7 @@ import controllers.TechnicianController;
 import model.Technician;
 
 import javax.swing.*;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -38,7 +39,9 @@ public class MainAppFrame extends JFrame {
             }
         });
 
-        techSearchBtn.addActionListener(e -> technicianList.setListData(TechnicianController.filter(technicianSearch.getText())));
+        ActionListener searchListener = e -> technicianList.setListData(TechnicianController.filter(technicianSearch.getText()));
+        technicianSearchBtn.addActionListener(searchListener);
+        technicianSearch.addActionListener(searchListener);
 
         technicianList.addListSelectionListener(e -> {
             editBtn.setEnabled(!technicianList.isSelectionEmpty());
@@ -65,10 +68,10 @@ public class MainAppFrame extends JFrame {
     private JList<Technician> technicianList;
     private JButton addTechnicianBtn;
     private JTextField technicianSearch;
-    private JButton techSearchBtn;
+    private JButton technicianSearchBtn;
     private JList osList;
     private JButton novaOSButton;
-    private JTextArea osSearch;
+    private JTextField osSearch;
     private JButton osSearchBtn;
     private JPanel appPanel;
     private JButton editBtn;

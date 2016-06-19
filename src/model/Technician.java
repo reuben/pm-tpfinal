@@ -6,8 +6,6 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "technicians")
 public class Technician extends BaseDaoEnabled {
-    public static final String ID_FIELD = "id";
-
     public Technician() {
     }
 
@@ -16,10 +14,6 @@ public class Technician extends BaseDaoEnabled {
         this.name = name;
         this.email = email;
         this.phone = phone;
-    }
-
-    public long getId() {
-        return id;
     }
 
     public String getName() {
@@ -51,7 +45,7 @@ public class Technician extends BaseDaoEnabled {
         return name;
     }
 
-    @DatabaseField(generatedId = true, columnName = ID_FIELD)
+    @DatabaseField(generatedId = true)
     private long id;
     @DatabaseField(canBeNull = false)
     private String name;

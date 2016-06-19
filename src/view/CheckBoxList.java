@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class CheckBoxList<T> extends JList<T> {
-    protected static Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
+    protected static final Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);
 
     public CheckBoxList() {
         setCellRenderer(new CellRenderer());

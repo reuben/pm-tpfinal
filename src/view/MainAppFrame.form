@@ -49,7 +49,7 @@
                       <preferredSize width="12" height="26"/>
                     </properties>
                   </component>
-                  <component id="c2767" class="javax.swing.JButton" binding="techSearchBtn">
+                  <component id="c2767" class="javax.swing.JButton" binding="technicianSearchBtn">
                     <constraints>
                       <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="1.0"/>
@@ -128,7 +128,7 @@
                       <text value="Nova O.S."/>
                     </properties>
                   </component>
-                  <component id="7008b" class="javax.swing.JTextArea" binding="osSearch">
+                  <component id="c2958" class="javax.swing.JTextField" binding="osSearch">
                     <constraints border-constraint="Center"/>
                     <properties/>
                   </component>

@@ -1,11 +1,9 @@
 package model;
 
-import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.misc.BaseDaoEnabled;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
 @DatabaseTable(tableName = "clients")
