@@ -9,25 +9,19 @@ import javax.swing.event.DocumentListener;
 import java.awt.event.*;
 
 public class TechnicianDialog extends JDialog {
-    private JPanel contentPane;
-    private JButton saveBtn;
-    private JButton cancelBtn;
-    private JTextField nameTextField;
-    private JTextField emailTextField;
-    private JTextField phoneTextField;
-    private CheckBoxList taskTypesList;
-
     public enum DialogMode {
         READ_ONLY,
         READ_WRITE
-    };
+    }
 
-    public TechnicianDialog(Technician technician, DialogMode mode) {
+    private TechnicianDialog(Technician technician, DialogMode mode) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(saveBtn);
         setTitle("Editar técnico");
         setLocationRelativeTo(null);
+
+        this.technician = technician;
 
         if (technician != null) {
             nameTextField.setText(technician.getName());
@@ -58,7 +52,7 @@ public class TechnicianDialog extends JDialog {
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
         if (mode == DialogMode.READ_WRITE) {
-            nameTextField.getDocument().addDocumentListener(new DocumentListener() {
+            final DocumentListener editListener = new DocumentListener() {
                 @Override
                 public void insertUpdate(DocumentEvent e) {
                     enableSaveButton();
@@ -77,15 +71,22 @@ public class TechnicianDialog extends JDialog {
                 private void enableSaveButton() {
                     saveBtn.setEnabled(true);
                 }
-            });
+            };
+            nameTextField.getDocument().addDocumentListener(editListener);
+            emailTextField.getDocument().addDocumentListener(editListener);
+            phoneTextField.getDocument().addDocumentListener(editListener);
         }
 
         saveBtn.addActionListener((ActionEvent e) -> {
-            if (technician == null) {
+            if (this.technician == null) {
                 Technician newTechnician = new Technician(nameTextField.getText(), emailTextField.getText(), phoneTextField.getText(), null);
                 TechnicianController.saveNewTechnician(newTechnician);
             } else {
-                TechnicianController.updateTechnician(technician);
+                this.technician.setName(nameTextField.getText());
+                this.technician.setEmail(emailTextField.getText());
+                this.technician.setPhone(phoneTextField.getText());
+                //TODO: taskTypes
+                TechnicianController.updateTechnician(this.technician);
             }
         });
     }
@@ -105,4 +106,14 @@ public class TechnicianDialog extends JDialog {
         dialog.pack();
         dialog.setVisible(true);
     }
+
+    private final Technician technician;
+
+    private JPanel contentPane;
+    private JButton saveBtn;
+    private JButton cancelBtn;
+    private JTextField nameTextField;
+    private JTextField emailTextField;
+    private JTextField phoneTextField;
+    private CheckBoxList taskTypesList;
 }

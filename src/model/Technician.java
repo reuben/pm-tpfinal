@@ -30,16 +30,32 @@ public class Technician extends BaseDaoEnabled {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPhone() {
         return phone;
     }
 
-    public List<String> getTaskTypes() {
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public ArrayList<String> getTaskTypes() {
         return taskTypes;
+    }
+
+    public void setTaskTypes(ArrayList<String> taskTypes) {
+        this.taskTypes = taskTypes;
     }
 
     @Override

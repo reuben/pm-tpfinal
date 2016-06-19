@@ -63,7 +63,7 @@
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/db.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:/Users/Reuben/Development/PM/tpfinal/db.sqlite</jdbc-url>
     </data-source>
   </component>
   <component name="EntryPointsManager">

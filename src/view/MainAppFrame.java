@@ -23,23 +23,25 @@ public class MainAppFrame extends JFrame {
             }
         });
 
-        addTechnicianBtn.addActionListener(e -> {
-            TechnicianController.addTechnician();
-        });
+        addTechnicianBtn.addActionListener(e -> TechnicianController.addTechnician());
 
-        editBtn.addActionListener(e -> {
-            TechnicianController.editTechnician((Technician)technicianList.getSelectedValue());
-        });
+        editBtn.addActionListener(e -> TechnicianController.editTechnician(technicianList.getSelectedValue()));
 
         removeBtn.addActionListener(e -> {
-            //TODO: JOptionPane.showConfirmDialog then remove
+            Technician technician = technicianList.getSelectedValue();
+            int confirm = JOptionPane.showConfirmDialog(null,
+                    "Tem certeza que deseja apagar o cadastro do técnico '" + technician.getName() + "'?", "Confirmar remoção",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (confirm == JOptionPane.YES_OPTION) {
+                TechnicianController.removeTechnician(technician);
+                updateTechnicianView();
+            }
         });
 
-        techSearchBtn.addActionListener(e -> {
-            TechnicianController.filter(technicianSearch.getText());
-        });
+        techSearchBtn.addActionListener(e -> technicianList.setListData(TechnicianController.filter(technicianSearch.getText())));
 
-        technicianList.addListSelectionListener((ListSelectionEvent e) -> {
+        technicianList.addListSelectionListener(e -> {
             editBtn.setEnabled(!technicianList.isSelectionEmpty());
             removeBtn.setEnabled(!technicianList.isSelectionEmpty());
         });
@@ -54,14 +56,14 @@ public class MainAppFrame extends JFrame {
     }
 
     public void updateTechnicianView() {
-        technicianList.setListData(TechnicianController.getAll().toArray());
+        technicianList.setListData(TechnicianController.getAll());
     }
 
     public void updateOSView() {
 
     }
 
-    private JList technicianList;
+    private JList<Technician> technicianList;
     private JButton addTechnicianBtn;
     private JTextField technicianSearch;
     private JButton techSearchBtn;
