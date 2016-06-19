@@ -48,12 +48,7 @@ public class Technician extends BaseDaoEnabled {
 
     @Override
     public String toString() {
-        return "Technician{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                '}';
+        return name;
     }
 
     @DatabaseField(generatedId = true, columnName = ID_FIELD)

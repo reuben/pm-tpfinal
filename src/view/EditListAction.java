@@ -1,5 +1,7 @@
 package view;
 
+import model.TaskType;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -12,7 +14,6 @@ import javax.swing.border.*;
  *  The default implementation has a few limitations:
  *
  *  a) the JList must be using the DefaultListModel
- *  b) the data in the model is replaced with a String object
  *
  *  If you which to use a different model or different data then you must
  *  extend this class and:
@@ -23,13 +24,14 @@ import javax.swing.border.*;
 public class EditListAction extends AbstractAction
 {
     private JList list;
+    private final Runnable editCallback;
 
     private JPopupMenu editPopup;
     private JTextField editTextField;
     private Class<?> modelClass;
 
-    public EditListAction()
-    {
+    public EditListAction(Runnable callback) {
+        this.editCallback = callback;
         setModelClass(DefaultListModel.class);
     }
 
@@ -38,7 +40,7 @@ public class EditListAction extends AbstractAction
         this.modelClass = modelClass;
     }
 
-    protected void applyValueToModel(String value, ListModel model, int row)
+    protected void applyValueToModel(TaskTypeCheckBox value, ListModel model, int row)
     {
         DefaultListModel dlm = (DefaultListModel)model;
         dlm.set(row, value);
@@ -49,18 +51,21 @@ public class EditListAction extends AbstractAction
      */
     public void actionPerformed(ActionEvent e)
     {
-        list = (JList)e.getSource();
+        actionPerformed((JList)e.getSource());
+    }
+
+    public void actionPerformed(JList source)
+    {
+        list = source;
         ListModel model = list.getModel();
 
         if (! modelClass.isAssignableFrom(model.getClass())) return;
 
         //  Do a lazy creation of the popup editor
-
         if (editPopup == null)
             createEditPopup();
 
         //  Position the popup editor over top of the selected row
-
         int row = list.getSelectedIndex();
         Rectangle r = list.getCellBounds(row, row);
 
@@ -68,8 +73,7 @@ public class EditListAction extends AbstractAction
         editPopup.show(list, r.x, r.y);
 
         //  Prepare the text field for editing
-
-        editTextField.setText( list.getSelectedValue().toString() );
+        editTextField.setText("");
         editTextField.selectAll();
         editTextField.requestFocusInWindow();
     }
@@ -80,27 +84,26 @@ public class EditListAction extends AbstractAction
     private void createEditPopup()
     {
         //  Use a text field as the editor
-
         editTextField = new JTextField();
         Border border = UIManager.getBorder("List.focusCellHighlightBorder");
         editTextField.setBorder( border );
 
         //  Add an Action to the text field to save the new value to the model
-
         editTextField.addActionListener(new ActionListener()
         {
             public void actionPerformed(ActionEvent e)
             {
-                String value = editTextField.getText();
+                TaskType taskType = new TaskType(editTextField.getText());
+                TaskTypeCheckBox checkBox = new TaskTypeCheckBox(taskType, true);
                 ListModel model = list.getModel();
                 int row = list.getSelectedIndex();
-                applyValueToModel(value, model, row);
+                applyValueToModel(checkBox, model, row);
                 editPopup.setVisible(false);
+                editCallback.run();
             }
         });
 
         //  Add the editor to the popup
-
         editPopup = new JPopupMenu();
         editPopup.setBorder( new EmptyBorder(0, 0, 0, 0) );
         editPopup.add(editTextField);

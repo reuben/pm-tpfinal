@@ -7,7 +7,9 @@ import model.Technician;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
 import java.util.Vector;
 import java.util.stream.Collectors;
 
@@ -17,45 +19,36 @@ public class TechnicianDialog extends JDialog {
         READ_WRITE
     }
 
-    private class TaskTypeCheckBox extends JCheckBox {
-        public TaskTypeCheckBox(TaskType taskType, boolean enabled) {
-            super(taskType.getName(), enabled);
-            this.taskType = taskType;
-        }
-
-        public TaskType getTaskType() {
-            return taskType;
-        }
-
-        private TaskType taskType;
-    }
-
     private TechnicianDialog(Technician technician, DialogMode mode) {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(saveBtn);
         setTitle("Detalhes do técnico");
+        setSize(365, 300);
+        setMinimumSize(new Dimension(365, 300));
+        setPreferredSize(new Dimension(365, 300));
         setLocationRelativeTo(null);
 
         this.technician = technician;
-        this.taskTypeCheckboxes = new Vector<TaskTypeCheckBox>();
+        taskTypesListModel = new DefaultListModel<>();
 
         if (technician != null) {
             nameTextField.setText(technician.getName());
             emailTextField.setText(technician.getEmail());
             phoneTextField.setText(technician.getPhone());
             for (TaskType taskType : TechnicianController.getTaskTypesForTechnician(technician)) {
-                taskTypeCheckboxes.add(new TaskTypeCheckBox(taskType, true));
+                taskTypesListModel.addElement(new TaskTypeCheckBox(taskType, true));
             }
             for (TaskType taskType : TechnicianController.getTaskTypesMinusTechnician(technician)) {
-                taskTypeCheckboxes.add(new TaskTypeCheckBox(taskType, false));
+                taskTypesListModel.addElement(new TaskTypeCheckBox(taskType, false));
             }
         } else {
             for (TaskType taskType : TechnicianController.getAllTaskTypes()) {
-                taskTypeCheckboxes.add(new TaskTypeCheckBox(taskType, false));
+                taskTypesListModel.addElement(new TaskTypeCheckBox(taskType, false));
             }
         }
-        taskTypesList.setListData(taskTypeCheckboxes);
+
+        taskTypesList.setModel(taskTypesListModel);
 
         if (mode == DialogMode.READ_ONLY) {
             nameTextField.setEnabled(false);
@@ -108,18 +101,50 @@ public class TechnicianDialog extends JDialog {
         }
 
         saveBtn.addActionListener(e -> {
+            Vector<TaskType> taskTypes = new Vector<>();
+            for (int i = 0; i < taskTypesListModel.size(); ++i) {
+                if (taskTypesListModel.get(i).isSelected()) {
+                    taskTypes.add(taskTypesListModel.get(i).getTaskType());
+                }
+            }
             if (this.technician == null) {
                 Technician newTechnician = new Technician(nameTextField.getText(), emailTextField.getText(), phoneTextField.getText());
                 TechnicianController.saveNewTechnician(newTechnician);
-                TechnicianController.updateTaskTypesForTechnician(newTechnician,
-                        taskTypesList.getSelectedValuesList().stream().map(TaskTypeCheckBox::getTaskType).collect(Collectors.toList()));
+                TechnicianController.updateTaskTypesForTechnician(newTechnician, taskTypes);
             } else {
                 this.technician.setName(nameTextField.getText());
                 this.technician.setEmail(emailTextField.getText());
                 this.technician.setPhone(phoneTextField.getText());
                 TechnicianController.updateTechnician(this.technician);
-                TechnicianController.updateTaskTypesForTechnician(this.technician,
-                        taskTypesList.getSelectedValuesList().stream().map(TaskTypeCheckBox::getTaskType).collect(Collectors.toList()));
+                TechnicianController.updateTaskTypesForTechnician(this.technician, taskTypes);
+            }
+        });
+
+        this.editListAction = new EditListAction(() -> {
+            TechnicianController.addTaskType(this.taskTypesList.getSelectedValue().getTaskType());
+        });
+
+        addTaskTypeBtn.addActionListener(e -> {
+            TaskTypeCheckBox newTaskType = new TaskTypeCheckBox(new TaskType(""), true);
+            this.taskTypesListModel.addElement(newTaskType);
+            this.taskTypesList.setSelectedValue(newTaskType, true);
+            this.editListAction.actionPerformed(this.taskTypesList);
+        });
+
+        removeTaskTypeBtn.addActionListener(e -> {
+            if (this.taskTypesList.isSelectionEmpty()) {
+                return;
+            }
+            TaskTypeCheckBox checkBox = this.taskTypesList.getSelectedValue();
+            TaskType taskType = checkBox.getTaskType();
+            int confirm = JOptionPane.showConfirmDialog(null,
+                    "Tem certeza que deseja remover a habilitação '" + taskType.getName() + "'?\n" +
+                    "Isso irá remover essa habilitação de todos os técnicos que a possuam.", "Confirmar remoção",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.QUESTION_MESSAGE);
+            if (confirm == JOptionPane.YES_OPTION) {
+                TechnicianController.removeTaskType(taskType);
+                this.taskTypesListModel.removeElement(checkBox);
             }
         });
     }
@@ -140,8 +165,10 @@ public class TechnicianDialog extends JDialog {
         dialog.setVisible(true);
     }
 
-    private final Technician technician;
-    private final Vector<TaskTypeCheckBox> taskTypeCheckboxes;
+    private Technician technician;
+
+    private EditListAction editListAction;
+    private DefaultListModel<TaskTypeCheckBox> taskTypesListModel;
 
     private JPanel contentPane;
     private JButton saveBtn;
@@ -150,4 +177,7 @@ public class TechnicianDialog extends JDialog {
     private JTextField emailTextField;
     private JTextField phoneTextField;
     private CheckBoxList<TaskTypeCheckBox> taskTypesList;
+    private JButton addTaskTypeBtn;
+    private JButton removeTaskTypeBtn;
+    private JPanel addRemovePanel;
 }

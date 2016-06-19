@@ -11,7 +11,7 @@ import java.awt.event.WindowEvent;
 public class MainAppFrame extends JFrame {
     public MainAppFrame() {
         setTitle("FazConcertos");
-        setSize(600, 600);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setContentPane(appPanel);
 

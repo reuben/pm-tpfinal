@@ -118,6 +118,27 @@ public final class TechnicianController {
         return null; // unreachable
     }
 
+    public static void addTaskType(TaskType taskType) {
+        try {
+            Dao<TaskType, String> dao = AppController.getTaskTypeDao();
+            dao.create(taskType);
+        } catch (SQLException e) {
+            view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
+        }
+    }
+
+    public static void removeTaskType(TaskType taskType) {
+        try {
+            Dao<TechnicianTaskType, Long> dao = AppController.getTechnicianTaskTypeDao();
+            DeleteBuilder<TechnicianTaskType, Long> deleteBuilder = dao.deleteBuilder();
+            deleteBuilder.where().eq(TechnicianTaskType.TASKTYPE_ID_FIELD, taskType);
+            deleteBuilder.delete();
+            AppController.getTaskTypeDao().delete(taskType);
+        } catch (SQLException e) {
+            view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
+        }
+    }
+
     public static TaskType[] getAllTaskTypes() {
         try {
             return AppController.getTaskTypeDao().queryForAll().toArray(new TaskType[0]);

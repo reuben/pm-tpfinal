@@ -27,7 +27,7 @@ public class CheckBoxList<T> extends JList<T> {
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
-    protected class CellRenderer implements ListCellRenderer {
+    protected class CellRenderer implements ListCellRenderer<T> {
         public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
             JCheckBox checkbox = (JCheckBox)value;
             checkbox.setBackground(isSelected ? getSelectionBackground() : getBackground());
