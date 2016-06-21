@@ -2,14 +2,13 @@ package model;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.misc.BaseDaoEnabled;
 import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @DatabaseTable(tableName = "service_requests")
-public class ServiceRequest extends BaseDaoEnabled {
+public class ServiceRequest {
     public ServiceRequest() {
     }
 

@@ -1,11 +1,10 @@
 package model;
 
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.misc.BaseDaoEnabled;
 import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "technicians")
-public class Technician extends BaseDaoEnabled {
+public class Technician {
     public Technician() {
     }
 
