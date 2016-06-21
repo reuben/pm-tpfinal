@@ -53,7 +53,7 @@ public final class TechnicianController {
         try {
             technician.setDao(AppController.getTechnicianDao());
             technician.create();
-            AppController.getAppFrame().updateTechnicianView();
+            AppController.getAppFrame().resetTechnicianView();
         } catch (SQLException e) {
             view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
         }
@@ -62,7 +62,7 @@ public final class TechnicianController {
     public static void updateTechnician(Technician technician) {
         try {
             technician.update();
-            AppController.getAppFrame().updateTechnicianView();
+            AppController.getAppFrame().resetTechnicianView();
         } catch (SQLException e) {
             view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
         }

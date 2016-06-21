@@ -14,7 +14,6 @@ import java.sql.SQLException;
 
 public final class AppController {
     private AppController() {
-
     }
 
     private static void initialize() throws SQLException {

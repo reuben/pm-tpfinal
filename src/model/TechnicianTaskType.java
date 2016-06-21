@@ -16,6 +16,8 @@ public class TechnicianTaskType {
         this.taskType = taskType;
     }
 
+    //TODO: check if we can add ForeignCollections to Technician and TaskType to make using this many-to-many relation easier
+
     @DatabaseField(generatedId = true)
     private long id;
     @DatabaseField(foreign = true, columnName = TECHNICIAN_ID_FIELD)

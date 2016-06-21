@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactManager">
+    <artifact type="jar" name="tpfinal:jar">
+      <output-path>$PROJECT_DIR$/out/artifacts/tpfinal_jar</output-path>
+      <root id="archive" name="tpfinal.jar">
+        <element id="module-output" name="tpfinal" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/ormlite-jdbc-4.49-SNAPSHOT.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/sqlite-jdbc-3.8.11.2.jar" path-in-jar="/" />
+        <element id="extracted-dir" path="$PROJECT_DIR$/lib/ormlite-core-4.49-SNAPSHOT.jar" path-in-jar="/" />
+      </root>
+    </artifact>
+  </component>
   <component name="ClientPropertiesManager">
     <properties class="javax.swing.AbstractButton">
       <property name="hideActionText" class="java.lang.Boolean" />
@@ -207,6 +218,12 @@
         <default-constraints vsize-policy="6" hsize-policy="0" anchor="0" fill="2" />
       </item>
     </group>
+  </component>
+  <component name="ProjectCodeStyleSettingsManager">
+    <option name="PER_PROJECT_SETTINGS">
+      <value />
+    </option>
+    <option name="PREFERRED_PROJECT_CODE_STYLE" value="Default" />
   </component>
   <component name="ProjectDictionaryState">
     <dictionary name="Reuben" />

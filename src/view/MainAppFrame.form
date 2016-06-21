@@ -27,7 +27,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="ad61e" class="javax.swing.JButton" binding="addTechnicianBtn">
+                  <component id="ad61e" class="javax.swing.JButton" binding="addBtn">
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                       <gridbag weightx="0.0" weighty="1.0"/>
@@ -108,7 +108,7 @@
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="e277a" class="javax.swing.JList" binding="osList">
+                  <component id="e277a" class="javax.swing.JList" binding="serviceRequestList">
                     <constraints/>
                     <properties>
                       <model/>
@@ -117,25 +117,44 @@
                   </component>
                 </children>
               </scrollpane>
-              <grid id="b8dfc" layout-manager="BorderLayout" hgap="0" vgap="0">
+              <grid id="de4b6" layout-manager="GridBagLayout">
                 <constraints border-constraint="South"/>
                 <properties/>
                 <border type="none"/>
                 <children>
-                  <component id="e9164" class="javax.swing.JButton" binding="novaOSButton" default-binding="true">
-                    <constraints border-constraint="West"/>
+                  <component id="e9164" class="javax.swing.JButton" binding="createServiceRequestBtn">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
                     <properties>
-                      <text value="Nova O.S."/>
+                      <text value="Criar O.S."/>
                     </properties>
                   </component>
-                  <component id="c2958" class="javax.swing.JTextField" binding="osSearch">
-                    <constraints border-constraint="Center"/>
-                    <properties/>
-                  </component>
-                  <component id="779d" class="javax.swing.JButton" binding="osSearchBtn">
-                    <constraints border-constraint="East"/>
+                  <component id="779d" class="javax.swing.JButton" binding="serviceRequestSearchBtn">
+                    <constraints>
+                      <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
                     <properties>
                       <text value="Buscar"/>
+                    </properties>
+                  </component>
+                  <component id="c2958" class="javax.swing.JTextField" binding="serviceRequestSearch">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="1.0" weighty="0.0"/>
+                    </constraints>
+                    <properties/>
+                  </component>
+                  <component id="596c4" class="javax.swing.JButton" binding="viewServiceRequestBtn">
+                    <constraints>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                      <gridbag weightx="0.0" weighty="0.0"/>
+                    </constraints>
+                    <properties>
+                      <enabled value="false"/>
+                      <text value="Detalhes"/>
                     </properties>
                   </component>
                 </children>
