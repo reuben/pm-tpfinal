@@ -60,7 +60,7 @@ public final class AppController {
         }
     }
 
-    static Dao<Client, Void> getClientDao() {
+    static Dao<Client, String> getClientDao() {
         assert(initialized);
         return clientDao;
     }
@@ -108,7 +108,7 @@ public final class AppController {
     private static final String DB_URL = "jdbc:sqlite:database.sqlite";
     private static JdbcConnectionSource connectionSource;
 
-    private static Dao<Client, Void> clientDao;
+    private static Dao<Client, String> clientDao;
     private static Dao<Technician, Long> technicianDao;
     private static Dao<ServiceRequest, Long> serviceRequestDao;
     private static Dao<TaskType, String> taskTypeDao;

@@ -67,6 +67,7 @@
         <processorPath useClasspath="true" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="1.8" />
   </component>
   <component name="CopyrightManager" default="" />
   <component name="DataSourceManagerImpl" format="xml" hash="1242030813">
@@ -74,7 +75,7 @@
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/database.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:/home/giovani/Projects/ufmg/pm/tp final/pm-tpfinal/database.sqlite</jdbc-url>
     </data-source>
   </component>
   <component name="EntryPointsManager">
@@ -221,7 +222,11 @@
   </component>
   <component name="ProjectCodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS">
-      <value />
+      <value>
+        <XML>
+          <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
+        </XML>
+      </value>
     </option>
     <option name="PREFERRED_PROJECT_CODE_STYLE" value="Default" />
   </component>

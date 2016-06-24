@@ -1,6 +1,7 @@
 package controllers;
 
 import com.j256.ormlite.dao.Dao;
+import model.Client;
 import model.ServiceRequest;
 import view.ServiceRequestDialog;
 
@@ -21,7 +22,18 @@ public final class ServiceRequestController {
         return null; // unreachable
     }
 
+    public static boolean checkIfClientExists(String cpf) {
+        Dao<Client, String> dao = AppController.getClientDao();
+        try {
+            return dao.queryForId(cpf) != null;
+        } catch (SQLException e) {
+            view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
+            return false;
+        }
+    }
     public static void addServiceRequest() {
+        view.ClientLoginDialog.create();
+
         //TODO: implement GUI flow:
         // ClientLoginDialog ->
         //     if client exists

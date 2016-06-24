@@ -45,4 +45,11 @@ public class ClientRegisterDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
+    private JTextField nameTextField;
+    private JTextField emailTextField;
+    private JTextField phoneTextField;
+    private JTextField idTextField;
+    private JTextField addressTextField;
+    private JTextField birthDateTextField;
+    private JTextField textField4;
 }

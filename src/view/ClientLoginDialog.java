@@ -1,5 +1,7 @@
 package view;
 
+import controllers.ServiceRequestController;
+
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -7,9 +9,20 @@ public class ClientLoginDialog extends JDialog {
     public ClientLoginDialog() {
         setContentPane(contentPane);
         setModal(true);
-        getRootPane().setDefaultButton(buttonOK);
+        getRootPane().setDefaultButton(loginButton);
 
-        buttonOK.addActionListener(e -> onOK());
+        //loginButton.addActionListener(e -> onOK());
+        loginButton.addActionListener(e -> {
+            // Check if there is a client with the input CPF
+            boolean existingClient = ServiceRequestController.checkIfClientExists(this.cpfTextField.getText());
+
+            if(existingClient){
+
+            } else {
+
+            }
+        });
+
         buttonCancel.addActionListener(e -> onCancel());
 
         // call onCancel() when cross is clicked
@@ -43,6 +56,9 @@ public class ClientLoginDialog extends JDialog {
     }
 
     private JPanel contentPane;
-    private JButton buttonOK;
+    private JButton loginButton;
     private JButton buttonCancel;
+    private JTextField nameTextField;
+    private JTextField cpfTextField;
+    private JTextField phoneTextField;
 }

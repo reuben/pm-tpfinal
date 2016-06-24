@@ -6,6 +6,11 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class ServiceRequestDialog extends JDialog {
+    public enum DialogMode {
+        READ_ONLY,
+        READ_WRITE
+    }
+
     public ServiceRequestDialog(ServiceRequest serviceRequest) {
         setContentPane(contentPane);
         setModal(true);
