@@ -1,26 +1,32 @@
 package view;
 
+import controllers.AppController;
 import controllers.ServiceRequestController;
+import model.Client;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ClientLoginDialog extends JDialog {
-    public ClientLoginDialog() {
+    private ClientLoginDialog() {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(loginButton);
+        setTitle("Login do cliente");
 
-        //loginButton.addActionListener(e -> onOK());
+        this.clientName = "";
+        this.clientCPF = "";
+        this.clientPhone = "";
+
         loginButton.addActionListener(e -> {
             // Check if there is a client with the input CPF
-            boolean existingClient = ServiceRequestController.checkIfClientExists(this.cpfTextField.getText());
-
-            if(existingClient){
-
-            } else {
-
-            }
+            this.client = ServiceRequestController.getClientById(this.cpfTextField.getText());
+            this.clientName = this.nameTextField.getText();
+            this.clientCPF = this.cpfTextField.getText();
+            this.clientPhone = this.phoneTextField.getText();
+            dispose();
         });
 
         buttonCancel.addActionListener(e -> onCancel());
@@ -39,21 +45,39 @@ public class ClientLoginDialog extends JDialog {
                 JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
-    }
-
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 
-    public static void create() {
+    public Client getClient() {
+        return client;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public String getClientCPF() {
+        return clientCPF;
+    }
+
+    public String getClientPhone() {
+        return clientPhone;
+    }
+
+    public static ClientLoginDialog create() {
         ClientLoginDialog dialog = new ClientLoginDialog();
         dialog.pack();
+        dialog.setLocationRelativeTo(AppController.getAppFrame());
         dialog.setVisible(true);
+        return dialog;
     }
+
+    private Client client;
+
+    private String clientName;
+    private String clientCPF;
+    private String clientPhone;
 
     private JPanel contentPane;
     private JButton loginButton;
@@ -61,4 +85,5 @@ public class ClientLoginDialog extends JDialog {
     private JTextField nameTextField;
     private JTextField cpfTextField;
     private JTextField phoneTextField;
+
 }

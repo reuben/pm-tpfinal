@@ -2,10 +2,11 @@ package view;
 
 import model.TaskType;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /*
  *  A simple popup editor for a JList that allows you to change

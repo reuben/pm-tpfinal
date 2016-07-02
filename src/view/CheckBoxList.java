@@ -1,9 +1,11 @@
 package view;
 
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class CheckBoxList<T> extends JList<T> {
     protected static final Border noFocusBorder = new EmptyBorder(1, 1, 1, 1);

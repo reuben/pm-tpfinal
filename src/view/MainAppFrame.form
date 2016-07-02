@@ -33,7 +33,7 @@
                       <gridbag weightx="0.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <text value="Adicionar"/>
+                      <text value="&amp;Adicionar"/>
                     </properties>
                   </component>
                   <component id="6d6c5" class="javax.swing.JTextField" binding="technicianSearch">
@@ -55,7 +55,7 @@
                       <gridbag weightx="0.0" weighty="1.0"/>
                     </constraints>
                     <properties>
-                      <text value="Buscar"/>
+                      <text value="&amp;Buscar"/>
                     </properties>
                   </component>
                   <component id="c6f6" class="javax.swing.JButton" binding="editBtn">
@@ -65,7 +65,7 @@
                     </constraints>
                     <properties>
                       <enabled value="false"/>
-                      <text value="Editar"/>
+                      <text value="&amp;Editar"/>
                     </properties>
                   </component>
                   <component id="c6300" class="javax.swing.JButton" binding="removeBtn">
@@ -75,7 +75,7 @@
                     </constraints>
                     <properties>
                       <enabled value="false"/>
-                      <text value="Remover"/>
+                      <text value="&amp;Remover"/>
                     </properties>
                   </component>
                 </children>
@@ -128,7 +128,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <text value="Criar O.S."/>
+                      <text value="Requisitar &amp;serviço"/>
                     </properties>
                   </component>
                   <component id="779d" class="javax.swing.JButton" binding="serviceRequestSearchBtn">
@@ -137,7 +137,7 @@
                       <gridbag weightx="0.0" weighty="0.0"/>
                     </constraints>
                     <properties>
-                      <text value="Buscar"/>
+                      <text value="B&amp;uscar"/>
                     </properties>
                   </component>
                   <component id="c2958" class="javax.swing.JTextField" binding="serviceRequestSearch">
@@ -154,7 +154,7 @@
                     </constraints>
                     <properties>
                       <enabled value="false"/>
-                      <text value="Detalhes"/>
+                      <text value="&amp;Detalhes"/>
                     </properties>
                   </component>
                 </children>
@@ -165,4 +165,7 @@
       </tabbedpane>
     </children>
   </grid>
+  <inspectionSuppressions>
+    <suppress inspection="NoLabelFor"/>
+  </inspectionSuppressions>
 </form>

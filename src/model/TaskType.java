@@ -19,6 +19,11 @@ public class TaskType {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     @DatabaseField(id = true, columnName = ID_FIELD)
     private String name;
 }

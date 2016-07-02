@@ -1,5 +1,7 @@
 package view;
 
+import controllers.AppController;
+import controllers.TaskTypeController;
 import controllers.TechnicianController;
 import model.TaskType;
 import model.Technician;
@@ -8,12 +10,13 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.Arrays;
-import java.util.Vector;
-import java.util.stream.Collectors;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class TechnicianDialog extends JDialog {
+
     public enum DialogMode {
         READ_ONLY,
         READ_WRITE
@@ -43,7 +46,7 @@ public class TechnicianDialog extends JDialog {
                 taskTypesListModel.addElement(new TaskTypeCheckBox(taskType, false));
             }
         } else {
-            for (TaskType taskType : TechnicianController.getAllTaskTypes()) {
+            for (TaskType taskType : TaskTypeController.getAllTaskTypes()) {
                 taskTypesListModel.addElement(new TaskTypeCheckBox(taskType, false));
             }
         }
@@ -100,7 +103,7 @@ public class TechnicianDialog extends JDialog {
         }
 
         saveBtn.addActionListener(e -> {
-            Vector<TaskType> taskTypes = new Vector<>();
+            ArrayList<TaskType> taskTypes = new ArrayList<>();
             for (int i = 0; i < taskTypesListModel.size(); ++i) {
                 if (taskTypesListModel.get(i).isSelected()) {
                     taskTypes.add(taskTypesListModel.get(i).getTaskType());
@@ -121,7 +124,7 @@ public class TechnicianDialog extends JDialog {
         });
 
         this.editListAction = new EditListAction(() -> {
-            TechnicianController.addTaskType(this.taskTypesList.getSelectedValue().getTaskType());
+            TaskTypeController.addTaskType(this.taskTypesList.getSelectedValue().getTaskType());
         });
 
         addTaskTypeBtn.addActionListener(e -> {
@@ -139,11 +142,11 @@ public class TechnicianDialog extends JDialog {
             TaskType taskType = checkBox.getTaskType();
             int confirm = JOptionPane.showConfirmDialog(null,
                     "Tem certeza que deseja remover a habilitação '" + taskType.getName() + "'?\n" +
-                    "Isso irá remover essa habilitação de todos os técnicos que a possuam.", "Confirmar remoção",
+                            "Isso irá remover essa habilitação de todos os técnicos que a possuam.", "Confirmar remoção",
                     JOptionPane.YES_NO_OPTION,
                     JOptionPane.QUESTION_MESSAGE);
             if (confirm == JOptionPane.YES_OPTION) {
-                TechnicianController.removeTaskType(taskType);
+                TaskTypeController.removeTaskType(taskType);
                 this.taskTypesListModel.removeElement(checkBox);
             }
         });
@@ -156,6 +159,7 @@ public class TechnicianDialog extends JDialog {
     public static void create(Technician technician, DialogMode mode) {
         TechnicianDialog dialog = new TechnicianDialog(technician, mode);
         dialog.pack();
+        dialog.setLocationRelativeTo(AppController.getAppFrame());
         dialog.setVisible(true);
     }
 

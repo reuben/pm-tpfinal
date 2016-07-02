@@ -5,6 +5,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "technicians")
 public class Technician {
+    public static final String ID_FIELD =  "id";
+
     public Technician() {
     }
 
@@ -44,7 +46,7 @@ public class Technician {
         return name;
     }
 
-    @DatabaseField(generatedId = true)
+    @DatabaseField(generatedId = true, columnName = ID_FIELD)
     private long id;
     @DatabaseField(canBeNull = false)
     private String name;

@@ -76,11 +76,11 @@ public final class TechnicianController {
     }
 
     public static TaskType[] getTaskTypesForTechnician(Technician technician) {
-        Dao<TechnicianTaskType, Long> technicianTaskTypeDao = AppController.getTechnicianTaskTypeDao();
+        Dao<TechnicianTaskType, Void> technicianTaskTypeDao = AppController.getTechnicianTaskTypeDao();
         Dao<TaskType, String> taskTypeDao = AppController.getTaskTypeDao();
         try {
             if (taskTypesForTechnicianQuery == null) {
-                QueryBuilder<TechnicianTaskType, Long> innerQuery = technicianTaskTypeDao.queryBuilder();
+                QueryBuilder<TechnicianTaskType, Void> innerQuery = technicianTaskTypeDao.queryBuilder();
                 innerQuery.selectColumns(TechnicianTaskType.TASKTYPE_ID_FIELD)
                           .where()
                               .eq(TechnicianTaskType.TECHNICIAN_ID_FIELD, new SelectArg());
@@ -99,11 +99,11 @@ public final class TechnicianController {
     }
 
     public static TaskType[] getTaskTypesMinusTechnician(Technician technician) {
-        Dao<TechnicianTaskType, Long> technicianTaskTypeDao = AppController.getTechnicianTaskTypeDao();
+        Dao<TechnicianTaskType, Void> technicianTaskTypeDao = AppController.getTechnicianTaskTypeDao();
         Dao<TaskType, String> taskTypeDao = AppController.getTaskTypeDao();
         try {
             if (taskTypesMinusTechnicianQuery == null) {
-                QueryBuilder<TechnicianTaskType, Long> innerQuery = technicianTaskTypeDao.queryBuilder();
+                QueryBuilder<TechnicianTaskType, Void> innerQuery = technicianTaskTypeDao.queryBuilder();
                 innerQuery.selectColumns(TechnicianTaskType.TASKTYPE_ID_FIELD)
                         .where()
                             .eq(TechnicianTaskType.TECHNICIAN_ID_FIELD, new SelectArg());
@@ -121,51 +121,39 @@ public final class TechnicianController {
         return null; // unreachable
     }
 
-    public static void addTaskType(TaskType taskType) {
-        try {
-            Dao<TaskType, String> dao = AppController.getTaskTypeDao();
-            dao.create(taskType);
-        } catch (SQLException e) {
-            view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
-        }
-    }
-
-    public static void removeTaskType(TaskType taskType) {
-        try {
-            Dao<TechnicianTaskType, Long> dao = AppController.getTechnicianTaskTypeDao();
-            DeleteBuilder<TechnicianTaskType, Long> deleteBuilder = dao.deleteBuilder();
-            deleteBuilder.where().eq(TechnicianTaskType.TASKTYPE_ID_FIELD, taskType);
-            deleteBuilder.delete();
-            AppController.getTaskTypeDao().delete(taskType);
-        } catch (SQLException e) {
-            view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
-        }
-    }
-
-    public static TaskType[] getAllTaskTypes() {
-        try {
-            return AppController.getTaskTypeDao().queryForAll().toArray(new TaskType[0]);
-        } catch (SQLException e) {
-            view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
-        }
-        return null; // unreachable
-    }
-
     public static void updateTaskTypesForTechnician(Technician technician, Iterable<TaskType> taskTypes) {
         try {
-            Dao<TechnicianTaskType, Long> dao = AppController.getTechnicianTaskTypeDao();
-            DeleteBuilder<TechnicianTaskType, Long> deleteBuilder = dao.deleteBuilder();
+            Dao<TechnicianTaskType, Void> dao = AppController.getTechnicianTaskTypeDao();
+            DeleteBuilder<TechnicianTaskType, Void> deleteBuilder = dao.deleteBuilder();
             deleteBuilder.where()
                     .eq(TechnicianTaskType.TECHNICIAN_ID_FIELD, technician)
                     .and().notIn(TechnicianTaskType.TASKTYPE_ID_FIELD, taskTypes);
             deleteBuilder.delete();
             for (TaskType taskType : taskTypes) {
                 TechnicianTaskType joinColumn = new TechnicianTaskType(technician, taskType);
-                AppController.getTechnicianTaskTypeDao().createIfNotExists(joinColumn);
+                AppController.getTechnicianTaskTypeDao().create(joinColumn);
             }
         } catch (SQLException e) {
             view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
         }
+    }
+
+    public static Technician[] getTechniciansForTaskTypes(Iterable<TaskType> taskTypes) {
+        Dao<TechnicianTaskType, Void> technicianTaskTypeDao = AppController.getTechnicianTaskTypeDao();
+        Dao<Technician, Long> technicianDao = AppController.getTechnicianDao();
+        try {
+            QueryBuilder<TechnicianTaskType, Void> innerQuery = technicianTaskTypeDao.queryBuilder();
+            innerQuery.selectColumns(TechnicianTaskType.TECHNICIAN_ID_FIELD)
+                    .where()
+                        .in(TechnicianTaskType.TASKTYPE_ID_FIELD, taskTypes);
+            return technicianDao.queryBuilder()
+                    .where()
+                        .in(Technician.ID_FIELD, innerQuery)
+                    .query().toArray(new Technician[0]);
+        } catch (SQLException e) {
+            view.FatalErrorDialog.die("Erro ao acessar o banco de dados: " + e.getMessage(), e);
+        }
+        return null; // unreachable
     }
 
     private static PreparedQuery<TaskType> taskTypesForTechnicianQuery;

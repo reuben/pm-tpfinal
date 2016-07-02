@@ -14,13 +14,31 @@
       <column name="phone" sqlType="VARCHAR" precision="0" scale="-1" nullable="true" jdbcType="12"/>
       <primary-key columns="cpf"/>
     </table>
+    <table name="service_estimates" schema="" catalog="" type="TABLE">
+      <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="request_id" sqlType="BIGINT" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="materials" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12"/>
+      <column name="serviceHours" sqlType="DOUBLE PRECISION" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="hourlyRate" sqlType="DOUBLE PRECISION" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="value" sqlType="DOUBLE PRECISION" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="serviceTax" sqlType="DOUBLE PRECISION" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <column name="finalValue" sqlType="DOUBLE PRECISION" precision="0" scale="-1" nullable="true" jdbcType="6"/>
+      <primary-key columns="id"/>
+    </table>
     <table name="service_requests" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
-      <column name="taskTypes" sqlType="BLOB" precision="0" scale="-1" nullable="true" jdbcType="12"/>
       <column name="description" sqlType="VARCHAR" precision="0" scale="-1" nullable="true" jdbcType="12"/>
       <column name="requester_id" sqlType="VARCHAR" precision="0" scale="-1" nullable="false" jdbcType="12"/>
       <column name="technician_id" sqlType="BIGINT" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="status" sqlType="VARCHAR" precision="0" scale="-1" nullable="true" jdbcType="12"/>
+      <column name="estimate_id" sqlType="BIGINT" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="serviceConcludedTime" sqlType="TIMESTAMP" precision="0" scale="-1" nullable="true" jdbcType="12"/>
+      <column name="payment_id" sqlType="BIGINT" precision="0" scale="-1" nullable="true" jdbcType="4"/>
       <primary-key columns="id"/>
+    </table>
+    <table name="servicerequest_tasktype" schema="" catalog="" type="TABLE">
+      <column name="servicerequest_id" sqlType="BIGINT" precision="0" scale="-1" nullable="true" jdbcType="4"/>
+      <column name="tasktype_id" sqlType="VARCHAR" precision="0" scale="-1" nullable="true" jdbcType="12"/>
     </table>
     <table name="sqlite_sequence" schema="" catalog="" type="TABLE">
       <column name="name" sqlType="" precision="0" scale="-1" nullable="true" jdbcType="12"/>
@@ -31,10 +49,8 @@
       <primary-key columns="name"/>
     </table>
     <table name="technician_tasktype" schema="" catalog="" type="TABLE">
-      <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
       <column name="technician_id" sqlType="BIGINT" precision="0" scale="-1" nullable="true" jdbcType="4"/>
       <column name="tasktype_id" sqlType="VARCHAR" precision="0" scale="-1" nullable="true" jdbcType="12"/>
-      <primary-key columns="id"/>
     </table>
     <table name="technicians" schema="" catalog="" type="TABLE">
       <column name="id" sqlType="INTEGER" precision="0" scale="-1" nullable="true" jdbcType="4"/>
